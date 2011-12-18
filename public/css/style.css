@@ -1,9 +1,16 @@
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
 
 body {
-    font-family: "Helvetica Neue";
+    font-family: "Trebuchet MS", Verdana, Arial;
     text-rendering: optimizeLegibility;
+    background: #333;
 }
+
+@font-face {
+    font-family: "Lobster";
+    src: url("Lobster.otf");
+}
+
 
 a {
     text-decoration:none;
@@ -16,10 +23,16 @@ h2 {
     color:#333;
 }
 
+.container {
+    width: 960px;
+    margin: 0 auto; margin-top: 15px;
+    background: #fff;
+}
+
 header {
     display:block;
     position:relative;
-    padding: 15px 0px 0px 15px;
+    padding: 5px 0px 0px 15px;
     background-color:#eee;
     border-bottom: 1px #ccc solid;
 }
@@ -29,10 +42,14 @@ header h1 {
     font-size:1.3em;
     font-weight:bold;
     color:#333;
+    margin: 0 20px 0 0;
 }
 
 header h1 a {
-    color:#333;
+    color:#990000;
+    font-family: Lobster;
+    font-size: 36px;
+    text-transform: lowercase;
 }
 
 header h1 small {
@@ -41,18 +58,27 @@ header h1 small {
 
 #content {
     display:block;
-    margin-top:20px;
-    margin-bottom:20px;
+    margin: 10px 0 20px 0;
     padding: 15px;
+}
+
+#content h2 {
+    color: #006699;
 }
 
 footer {
     display:block;
     border-top: 1px #ccc solid;
     text-align: center;
-    color:#ccc;
+    color:#fff;
     font-size:14px;
     margin-bottom:30px;
+    padding: 5px;
+    background: #333;
+}
+
+footer a {
+    color: #fff;
 }
 
 nav {
@@ -67,7 +93,7 @@ nav a {
 #account {
     color:#aaa;
     position: absolute;
-    top: 5px;
+    top: 25px;
     right: 10px;
     font-weight:bold;
     font-size:14px;
@@ -81,7 +107,7 @@ nav a {
 #login,#submitform {
     display:block;
     position:relative;
-    width:150px;
+    width:450px;
 }
 
 #login label, #submitform label {
@@ -167,8 +193,32 @@ article.deleted {
 }
 
 form textarea {
-    font-family: Courier;
-    font-size:14px;
+    font-family: "Trebuchet MS", Verdana, Arial;
+    font-size:13px;
+}
+
+textarea, input {
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+
+#title, #url, #text {
+    width: 500px;
+}
+
+#do_submit, #post_comment, #edit_news {
+    font-size: 14px;
+    color: #000;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #000;
+}
+
+#add_comment {
+    width: 500px;
+}
+
+#comments {
+    padding: 20px 0 0 0;
 }
 
 .comment {
@@ -204,7 +254,7 @@ form textarea {
     position:relative;
     left:60px;
     top:10px;
-    font-family: Courier;
+    font-family: "Trebuchet MS", Verdana, Arial;
     font-size: 14px;
     white-space: pre-wrap;       /* css-3 */
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */

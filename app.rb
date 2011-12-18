@@ -66,10 +66,10 @@ before do
 end
 
 get '/' do
-    H.set_title "Top News - #{SiteName}"
+    H.set_title "A launch platform and community for early-stage startups | #{SiteName}"
     news,numitems = get_top_news
     H.page {
-        H.h2 {"Top news"}+news_list_to_html(news)
+        H.h2 {"Top submissions"}+news_list_to_html(news)
     }
 end
 
@@ -98,7 +98,7 @@ end
 
 get '/latest/:start' do
     start = params[:start].to_i
-    H.set_title "Latest news - #{SiteName}"
+    H.set_title "Latest submissions - #{SiteName}"
     paginate = {
         :get => Proc.new {|start,count|
             get_latest_news(start,count)
@@ -109,7 +109,7 @@ get '/latest/:start' do
         :link => "/latest/$"
     }
     H.page {
-        H.h2 {"Latest news"}
+        H.h2 {"Latest submissions"}
         H.section(:id => "newslist") {
             list_items(paginate)
         }
@@ -205,32 +205,23 @@ end
 
 get '/submit' do
     redirect "/login" if !$user
-    H.set_title "Submit a new story - #{SiteName}"
+    H.set_title "Submit a new project - #{SiteName}"
     H.page {
-        H.h2 {"Submit a new story"}+
+        H.h2 {"Submit your startup or side-project"}+
         H.div(:id => "submitform") {
             H.form(:name=>"f") {
                 H.inputhidden(:name => "news_id", :value => -1)+
-                H.label(:for => "title") {"title"}+
-                H.inputtext(:id => "title", :name => "title", :size => 80, :value => (params[:t] ? H.entities(params[:t]) : ""))+H.br+
-                H.label(:for => "url") {"url"}+H.br+
-                H.inputtext(:id => "url", :name => "url", :size => 60, :value => (params[:u] ? H.entities(params[:u]) : ""))+H.br+
-                "or if you don't have an url type some text"+
+                H.label(:for => "title") {"your project name, and a short description about it"}+
+                H.inputtext(:id => "title", :name => "title", :size => 80, :value => (params[:t] ? H.entities(params[:t]) : ""))+H.br+H.br+
+                H.label(:for => "url") {"link to your project"}+H.br+
+                H.inputtext(:id => "url", :name => "url", :size => 80, :value => (params[:u] ? H.entities(params[:u]) : ""))+H.br+
                 H.br+
-                H.label(:for => "text") {"text"}+
-                H.textarea(:id => "text", :name => "text", :cols => 60, :rows => 10) {}+
-                H.button(:name => "do_submit", :value => "Submit")
+                H.label(:for => "text") {"Tell us more about your project. Need any specific help from the community?"}+
+                H.textarea(:id => "text", :name => "text", :cols => 70, :rows => 10) {}+
+                H.button(:name => "do_submit", :id => "do_submit", :value => "Submit")
             }
         }+
         H.div(:id => "errormsg"){}+
-        H.p {
-            bl = "javascript:window.location=%22#{SiteUrl}/submit?u=%22+encodeURIComponent(document.location)+%22&t=%22+encodeURIComponent(document.title)"
-            "Submitting news is simpler using the "+
-            H.a(:href => bl) {
-                "bookmarklet"
-            }+
-            " (drag the link to your browser toolbar)"
-        }+
         H.script() {'
             $(function() {
                 $("input[name=do_submit]").click(submit);
@@ -273,8 +264,8 @@ get "/news/:news_id" do
                 H.inputhidden(:name => "news_id", :value => news["id"])+
                 H.inputhidden(:name => "comment_id", :value => -1)+
                 H.inputhidden(:name => "parent_id", :value => -1)+
-                H.textarea(:name => "comment", :cols => 60, :rows => 10) {}+H.br+
-                H.button(:name => "post_comment", :value => "Send comment")
+                H.textarea(:name => "comment", :id => "add_comment",:cols => 60, :rows => 10) {}+H.br+
+                H.button(:name => "post_comment", :id => "post_comment", :value => "post comment")
             }+H.div(:id => "errormsg"){}
         else
             H.br
@@ -383,27 +374,26 @@ get "/editnews/:news_id" do
         text = news_text(news)
         news['url'] = ""
     end
-    H.set_title "Edit news - #{SiteName}"
+    H.set_title "Edit your submission - #{SiteName}"
     H.page {
-        news_to_html(news)+
+        H.h2 {"Edit your submission"}+news_to_html(news)+
         H.div(:id => "submitform") {
             H.form(:name=>"f") {
                 H.inputhidden(:name => "news_id", :value => news['id'])+
-                H.label(:for => "title") {"title"}+
+                H.label(:for => "title") {"your project name, and a short description about it"}+
                 H.inputtext(:id => "title", :name => "title", :size => 80,
-                            :value => H.entities(news['title']))+H.br+
-                H.label(:for => "url") {"url"}+H.br+
+                            :value => H.entities(news['title']))+H.br+H.br+
+                H.label(:for => "url") {"link to your project "}+H.br+
                 H.inputtext(:id => "url", :name => "url", :size => 60,
                             :value => H.entities(news['url']))+H.br+
-                "or if you don't have an url type some text"+
                 H.br+
-                H.label(:for => "text") {"text"}+
+                H.label(:for => "text") {"Tell us more about your project. Need any specific help from the community?"}+
                 H.textarea(:id => "text", :name => "text", :cols => 60, :rows => 10) {
                     H.entities(text)
                 }+H.br+
-                H.checkbox(:name => "del", :value => "1")+
-                "delete this news"+H.br+
-                H.button(:name => "edit_news", :value => "Edit")
+                H.checkbox(:name => "del", :id => "del", :value => "1")+
+                H.label(:for => "del") {"delete this news"}+H.br+H.br+
+                H.button(:name => "edit_news", :id => "edit_news", :value => "Edit")
             }
         }+
         H.div(:id => "errormsg"){}+
@@ -555,11 +545,11 @@ post '/api/submit' do
 
     # We can have an empty url or an empty first comment, but not both.
     if (!check_params "title","news_id",:url,:text) or
-                               (params[:url].length == 0 and
+                               (params[:url].length == 0 or
                                 params[:text].length == 0)
         return {
             :status => "err",
-            :error => "Please specify a news title and address or text."
+            :error => "All fields are required."
         }.to_json
     end
     # Make sure the URL is about an acceptable protocol, that is
@@ -569,7 +559,7 @@ post '/api/submit' do
            params[:url].index("https://") != 0
             return {
                 :status => "err",
-                :error => "We only accept http:// and https:// news."
+                :error => "You have entered an invalid URL."
             }.to_json
         end
     end
@@ -840,8 +830,7 @@ def application_header
     }
     H.header {
         H.h1 {
-            H.a(:href => "/") {H.entities SiteName}+" "+
-            H.small {Version}
+            H.a(:href => "/") {H.entities SiteName}
         }+navbar+" "+rnavbar
     }
 end
@@ -862,10 +851,10 @@ def application_footer
         keyboardnavigation = ""
     end
     H.footer {
-        links = [
-            ["source code", "http://github.com/antirez/lamernews"],
+        links = [            
             ["rss feed", "/rss"],
-            ["twitter", FooterTwitterLink],
+            ["twitter", 'http://twitter.com/letmebeta'],
+            ["fork of lamernews 0.9.2", "http://github.com/antirez/lamernews"],
             ["google group", FooterGoogleGroupLink]
         ]
         links.map{|l| l[1] ?
@@ -947,7 +936,7 @@ def create_user(username,password)
         return nil, "Username is busy, please try a different one."
     end
     if rate_limit_by_ip(3600*15,"create_user",request.ip)
-        return nil, "Please wait some time before creating a new user."
+        #return nil, "Please wait some time before creating a new user."
     end
     id = $r.incr("users.count")
     auth_token = get_rand
@@ -1740,6 +1729,7 @@ def str_elapsed(t)
     return "#{seconds} seconds ago" if seconds < 60
     return "#{seconds/60} minutes ago" if seconds < 60*60
     return "#{seconds/60/60} hours ago" if seconds < 60*60*24
+    return "#{seconds/60/60/24} day ago" if seconds < 60*60*24*2
     return "#{seconds/60/60/24} days ago"
 end
 
