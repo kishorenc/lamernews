@@ -241,19 +241,18 @@ get "/news/:news_id" do
     news = get_news_by_id(params["news_id"])
     halt(404,"404 - This news does not exist.") if !news
     # Show the news text if it is a news without URL.
-    if !news_domain(news)
-        c = {
-            "body" => news_text(news),
-            "ctime" => news["ctime"],
-            "user_id" => news["user_id"],
-            "thread_id" => news["id"],
-            "topcomment" => true
-        }
-        user = get_user_by_id(news["user_id"]) || DeletedUser
-        top_comment = H.topcomment {comment_to_html(c,user)}
-    else
-        top_comment = ""
-    end
+    
+    c = {
+        "body" => news["text"],
+        "ctime" => news["ctime"],
+        "user_id" => news["user_id"],
+        "thread_id" => news["id"],
+        "topcomment" => true
+    }
+    user = get_user_by_id(news["user_id"]) || DeletedUser
+    # top_comment = H.topcomment {comment_to_html(c,user)}
+    top_comment = H.div(:id => "post_body"){ c["body"] }
+
     H.set_title "#{H.entities news["title"]} - #{SiteName}"
     H.page {
         H.section(:id => "newslist") {
@@ -368,12 +367,8 @@ get "/editnews/:news_id" do
     halt(404,"404 - This news does not exist.") if !news
     halt(500,"Permission denied.") if $user['id'].to_i != news['user_id'].to_i
 
-    if news_domain(news)
-        text = ""
-    else
-        text = news_text(news)
-        news['url'] = ""
-    end
+    text = news["text"]
+    
     H.set_title "Edit your submission - #{SiteName}"
     H.page {
         H.h2 {"Edit your submission"}+news_to_html(news)+
@@ -543,7 +538,7 @@ post '/api/submit' do
         return {:status => "err", :error => "Wrong form secret."}.to_json
     end
 
-    # We can have an empty url or an empty first comment, but not both.
+    # URL, title and text should all be present
     if (!check_params "title","news_id",:url,:text) or
                                (params[:url].length == 0 or
                                 params[:text].length == 0)
@@ -1237,15 +1232,9 @@ end
 # Return value: the ID of the inserted news, or the ID of the news with
 # the same URL recently added.
 def insert_news(title,url,text,user_id)
-    # If we don't have an url but a comment, we turn the url into
-    # text://....first comment..., so it is just a special case of
-    # title+url anyway.
-    textpost = url.length == 0
-    if url.length == 0
-        url = "text://"+text[0...CommentMaxLength]
-    end
+    text = text[0...CommentMaxLength]
     # Check for already posted news with the same URL.
-    if !textpost and (id = $r.get("url:"+url))
+    if (id = $r.get("url:"+url))
         return id.to_i
     end
     # We can finally insert the news.
@@ -1255,6 +1244,7 @@ def insert_news(title,url,text,user_id)
         "id", news_id,
         "title", title,
         "url", url,
+        "text",text,
         "user_id", user_id,
         "ctime", ctime,
         "score", 0,
@@ -1271,7 +1261,7 @@ def insert_news(title,url,text,user_id)
     # Add the news into the top view
     $r.zadd("news.top",rank,news_id)
     # Add the news url for some time to avoid reposts in short time
-    $r.setex("url:"+url,PreventRepostTime,news_id) if !textpost
+    $r.setex("url:"+url,PreventRepostTime,news_id)
     # Set a timeout indicating when the user may post again
     $r.setex("user:#{$user['id']}:submitted_recently",NewsSubmissionBreak,'1')
     return news_id
@@ -1288,27 +1278,22 @@ def edit_news(news_id,title,url,text,user_id)
     return false if !news or news['user_id'].to_i != user_id.to_i
     return false if !(news['ctime'].to_i > (Time.now.to_i - NewsEditTime))
 
-    # If we don't have an url but a comment, we turn the url into
-    # text://....first comment..., so it is just a special case of
-    # title+url anyway.
-    textpost = url.length == 0
-    if url.length == 0
-        url = "text://"+text[0...CommentMaxLength]
-    end
+    text = text[0...CommentMaxLength]
     # Even for edits don't allow to change the URL to the one of a
     # recently posted news.
-    if !textpost and url != news['url']
+    if url != news['url']
         return false if $r.get("url:"+url)
         # No problems with this new url, but the url changed
         # so we unblock the old one and set the block in the new one.
         # Otherwise it is easy to mount a DOS attack.
         $r.del("url:"+news['url'])
-        $r.setex("url:"+url,PreventRepostTime,news_id) if !textpost
+        $r.setex("url:"+url,PreventRepostTime,news_id)
     end
     # Edit the news fields.
     $r.hmset("news:#{news_id}",
         "title", title,
-        "url", url)
+        "url", url,
+        "text", text)
     return news_id
 end
 

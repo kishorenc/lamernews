@@ -278,6 +278,11 @@ note {
     color: #999;
 }
 
+#post_body {
+ margin: 20px;   
+ font-size: 13px;
+}
+
 topcomment {
     display:block;
     margin:20px;
