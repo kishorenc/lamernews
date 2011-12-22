@@ -66,10 +66,10 @@ before do
 end
 
 get '/' do
-    H.set_title "A launch platform and community for early-stage startups | #{SiteName}"
+    H.set_title "Show and tell platform for early-stage projects | #{SiteName}"
     news,numitems = get_top_news
-    H.page {
-        H.h2 {"Top submissions"}+news_list_to_html(news)
+    H.page("top") {
+        H.h2 {"Show and tell platform for early-stage projects"}+news_list_to_html(news)
     }
 end
 
@@ -108,8 +108,8 @@ get '/latest/:start' do
         :perpage => LatestNewsPerPage,
         :link => "/latest/$"
     }
-    H.page {
-        H.h2 {"Latest submissions"}
+    H.page("latest") {
+        H.h2 {"Latest submissions"} + 
         H.section(:id => "newslist") {
             list_items(paginate)
         }
@@ -167,7 +167,7 @@ get '/replies' do
     redirect "/login" if !$user
     comments,count = get_user_comments($user['id'],0,SubthreadsInRepliesPage)
     H.set_title "Your threads - #{SiteName}"
-    H.page {
+    H.page("replies") {
         $r.hset("user:#{$user['id']}","replies",0)
         H.h2 {"Your threads"}+
         H.div("id" => "comments") {
@@ -206,7 +206,7 @@ end
 get '/submit' do
     redirect "/login" if !$user
     H.set_title "Submit a new project - #{SiteName}"
-    H.page {
+    H.page("submit") {
         H.h2 {"Submit your startup or side-project"}+
         H.div(:id => "submitform") {
             H.form(:name=>"f") {
@@ -807,7 +807,7 @@ def application_header
                     ["submit","/submit"]]
     navbar = H.nav {
         navitems.map{|ni|
-            H.a(:href=>ni[1]) {H.entities ni[0]}
+            H.a(:href=>ni[1], :class=>ni[0]) {H.entities ni[0]}
         }.inject{|a,b| a+"\n"+b}+replies_link
     }
     rnavbar = H.nav(:id => "account") {

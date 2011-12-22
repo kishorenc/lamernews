@@ -44,7 +44,7 @@ NewsScoreLogStart = 10
 NewsScoreLogBooster = 2
 RankAgingFactor = 2.2
 PreventRepostTime = 3600*48
-NewsSubmissionBreak = 60*15
+NewsSubmissionBreak = 60*5
 SavedNewsPerPage = 10
 
 # Footer links

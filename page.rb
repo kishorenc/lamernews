@@ -121,7 +121,7 @@ class HTMLGen
         @title = t
     end
 
-    def page()  
+    def page(id="default")  
         "<!DOCTYPE html>"+
         self.html {
             H.head {
@@ -132,10 +132,10 @@ class HTMLGen
                           :type => "text/css")+
                 self.link(:href => "/images/favicon.png", :rel => "shortcut icon")+
                 self.script(:src =>
-                    "//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"){}+
+                    "/js/jquery-1.6.4.min.js"){}+
                 self.script(:src => "/js/app.js?v=8"){}
             }+
-            self.body {
+            self.body(:class => id) {
                 self.div(:class => "container") {
                     _header+H.div(:id => "content"){yield}+_footer
                 }

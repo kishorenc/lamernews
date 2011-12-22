@@ -90,6 +90,11 @@ nav a {
     margin-left: 20px;
 }
 
+body.top a.top, body.latest a.latest, body.submit a.submit, body.replies a.replies {
+    font-weight: bold;
+    color: #006699;
+}
+
 #account {
     color:#aaa;
     position: absolute;
@@ -116,7 +121,7 @@ nav a {
 }
 
 div #errormsg {
-    width:400px;
+    width:500px;
     color:#ff9999;
     font-weight:bold;
     margin-top: 15px;
