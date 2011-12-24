@@ -25,23 +25,31 @@
 # those of the authors and should not be interpreted as representing official
 # policies, either expressed or implied, of Salvatore Sanfilippo.
 
-require 'app_config'
 require 'rubygems'
 require 'hiredis'
 require 'redis'
-require 'page'
 require 'sinatra'
 require 'json'
 require 'digest/sha1'
 require 'digest/md5'
-require 'comments'
-require 'pbkdf2'
+require './app_config'
+require './page'
+require './comments'
+require './pbkdf2'
 require 'openssl' if UseOpenSSL
 
 Version = "0.9.2"
 
+if File.exists? DotCloudEnvFile then
+    DotCloudEnv = JSON.parse(File.read DotCloudEnvFile)
+    RedisHost = DotCloudEnv['DOTCLOUD_DATA_REDIS_HOST']
+    RedisPort = DotCloudEnv['DOTCLOUD_DATA_REDIS_PORT']
+    RedisPassword = DotCloudEnv['DOTCLOUD_DATA_REDIS_PASSWORD']
+    RedisArgs = {:host => RedisHost, :port => RedisPort, :password => RedisPassword}
+end
+
 before do
-    $r = Redis.new(:host => RedisHost, :port => RedisPort) if !$r
+    $r = Redis.new(RedisArgs) if !$r
     H = HTMLGen.new if !defined?(H)
     if !defined?(Comments)
         Comments = RedisComments.new($r,"comment",proc{|c,level|

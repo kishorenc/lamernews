@@ -2,10 +2,6 @@
 SiteName = "Let me Beta"
 SiteUrl = "http://letmebeta.com"
 
-# Redis config
-RedisHost = "127.0.0.1"
-RedisPort = 6379
-
 # Security
 PBKDF2Iterations = 1000 # Set this to 5000 to improve security. But it is slow.
 UseOpenSSL = false
@@ -53,3 +49,11 @@ FooterGoogleGroupLink = false
 
 # API
 APIMaxNewsCount = 32
+
+# Redis
+RedisHost = "127.0.0.1"
+RedisPort = 6379
+RedisArgs = {:host => RedisHost, :port => RedisPort}
+
+# DotCloud (production)
+DotCloudEnvFile = "/home/dotcloud/environment.json"
