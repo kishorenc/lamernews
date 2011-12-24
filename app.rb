@@ -190,16 +190,17 @@ end
 
 get '/login' do
     H.set_title "Login - #{SiteName}"
-    H.page {
+    H.page("login") {
+        H.h2 {"Login or register"} +
         H.div(:id => "login") {
             H.form(:name=>"f") {
                 H.label(:for => "username") {"username"}+
                 H.inputtext(:id => "username", :name => "username")+
                 H.label(:for => "password") {"password"}+
                 H.inputpass(:id => "password", :name => "password")+H.br+
-                H.checkbox(:name => "register", :value => "1")+
-                "create account"+H.br+
-                H.submit(:name => "do_login", :value => "Login")
+                H.checkbox(:name => "register", :id => "register", :value => "1")+
+                H.label(:for => "register", :class => "inline"){"create account"}+H.br+
+                H.submit(:name => "do_login", :id => "do_login", :value => "Login")
             }
         }+
         H.div(:id => "errormsg"){}+
@@ -495,7 +496,7 @@ get '/api/login' do
     if (!check_params "username","password")
         return {
             :status => "err",
-            :error => "Username and password are two required fields."
+            :error => "Please enter you username and password."
         }.to_json
     end
     auth,apisecret = check_user_credentials(params[:username],
@@ -525,7 +526,7 @@ post '/api/create_account' do
     if params[:password].length < PasswordMinLength
         return {
             :status => "err",
-            :error => "Password is too short. Min length: #{PasswordMinLength}"
+            :error => "Password is too short. It should be atleast #{PasswordMinLength} long."
         }.to_json
     end
     auth,errmsg = create_user(params[:username],params[:password])
@@ -828,7 +829,7 @@ def application_header
                 "logout"
             }
         else
-            H.a(:href => "/login") {"login / register"}
+            H.a(:href => "/login", :class => "login") {"login / register"}
         end
     }
     H.header {
@@ -936,7 +937,7 @@ end
 #               failed (detected testing the first return value).
 def create_user(username,password)
     if $r.exists("username.to.id:#{username.downcase}")
-        return nil, "Username is busy, please try a different one."
+        return nil, "That username is already taken, please try a different one."
     end
     if rate_limit_by_ip(3600*15,"create_user",request.ip)
         #return nil, "Please wait some time before creating a new user."

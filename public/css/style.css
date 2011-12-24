@@ -90,7 +90,7 @@ nav a {
     margin-left: 20px;
 }
 
-body.top a.top, body.latest a.latest, body.submit a.submit, body.replies a.replies {
+body.top a.top, body.latest a.latest, body.submit a.submit, body.replies a.replies, body.login a.login {
     font-weight: bold;
     color: #006699;
 }
@@ -118,6 +118,27 @@ body.top a.top, body.latest a.latest, body.submit a.submit, body.replies a.repli
 #login label, #submitform label {
     font-size:12px;
     font-weight:bold;
+}
+
+#username, #password {
+    width: 200px;
+    margin: 0 0 20px 0;
+}
+
+#login label {
+    display: block;
+}
+
+#login label.inline {
+    display: inline;
+}
+
+#do_login {
+    font-size: 16px;
+    margin: 20px 0 0 0;
+    color: #000;
+    background: #eee;
+    padding: 5px 10px 5px 10px;
 }
 
 div #errormsg {
