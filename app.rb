@@ -856,15 +856,21 @@ def application_footer
     end
     H.footer {
         links = [            
-            ["rss feed", "/rss"],
-            ["twitter", 'http://twitter.com/letmebeta'],
-            ["fork of lamernews 0.9.2", "http://github.com/antirez/lamernews"],
-            ["google group", FooterGoogleGroupLink]
+            ["RSS", "/rss"],
+            ["Twitter", 'http://twitter.com/letmebeta'],
+            ["Fork of lamernews 0.9.2", "https://github.com/kishorenc/lamernews"]
         ]
-        links.map{|l| l[1] ?
-            H.a(:href => l[1]) {H.entities l[0]} :
-            nil
-        }.select{|l| l}.join(" | ")
+        
+        H.ul {
+            links.map{ |l| 
+                l[1] ? H.li { 
+                    H.a(:href => l[1]) { H.entities l[0] } 
+                } : nil
+            }.select{|l| l}.join(" &middot; ") 
+        } + 
+        H.a(:href => "http://dotcloud.com/", :id => "powered-by"){
+            H.image(:src => "https://dotcloud.zendesk.com/attachments/token/ehpjk3hp9igabhk/?name=powered-by-dotcloud.png", :alt =>"Powered by DotCloud")
+        }
     }+apisecret+keyboardnavigation
 end
 
@@ -1412,8 +1418,8 @@ def news_to_html(news)
             H.username {
                 H.a(:href=>"/user/"+H.urlencode(news["username"])) {
                     H.entities news["username"]
-                }
-            }+" "+str_elapsed(news["ctime"].to_i)+" "+
+                } + " &middot; "
+            }+" "+str_elapsed(news["ctime"].to_i)+" "+  " &middot; " +
             H.a(:href => "/news/#{news["id"]}") {
                 news["comments"]+" comments"
             }

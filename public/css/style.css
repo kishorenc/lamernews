@@ -69,7 +69,6 @@ header h1 small {
 footer {
     display:block;
     border-top: 1px #ccc solid;
-    text-align: center;
     color:#fff;
     font-size:14px;
     margin-bottom:30px;
@@ -77,8 +76,23 @@ footer {
     background: #333;
 }
 
+footer ul {
+    float: left;
+}
+
+footer li {
+    list-style: none;
+    display: inline;
+}
+
 footer a {
     color: #fff;
+    font-size: 12px;
+}
+
+footer a#powered-by {
+   float: right;
+   margin: 5px 0 0 0;
 }
 
 nav {
@@ -155,13 +169,9 @@ article {
     border: 1px solid transparent;
 }
 
-article.active {
-    border: 1px dashed #000;
-}
-
 article h2 {
     display: inline;
-    font-size:20px;
+    font-size:20px;    
 }
 
 article address {
@@ -192,9 +202,9 @@ article .downarrow {
 }
 
 article p {
-    font-size:14px;
+    font-size: 14px;
     color:#999;
-    margin-left:20px;
+    margin: 5px 0 0 20px;
 }
 
 article p a {
@@ -306,7 +316,7 @@ note {
 
 #post_body {
  margin: 20px;   
- font-size: 13px;
+ font-size: 14px;
 }
 
 topcomment {
