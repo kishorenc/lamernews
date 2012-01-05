@@ -1,6 +1,4 @@
 www:
-  type: ruby
-  environment:
-    MODE: production
+  type: ruby  
 data:
   type: redis
