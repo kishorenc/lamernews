@@ -113,13 +113,13 @@ get '/about' do
                 generate feedback, and start a dialogue within the community."
             } +        
             H.p {
-                "Startups can find any number of launch platforms that include link-sharing or other forms of advertising. Unfortunately, most internet users are not interested in the latest web and mobile technology and even fewer are willing to offer feedback, criticism, or assistance in making web and mobile applications better. The “Let Me Beta” community is filled with startup founders who understand the difficulty in launching a new web or mobile application, enjoy using the latest technologies, and find pleasure providing feedback to improve products."
+                "Startups can find any number of launch platforms that include link-sharing or other forms of advertising. Unfortunately, most internet users are not interested in the latest web and mobile technology and even fewer are willing to offer feedback, criticism, or assistance in making web and mobile applications better. The Let Me Beta community is filled with startup founders who understand the difficulty in launching a new web or mobile application, enjoy using the latest technologies, and find pleasure providing feedback to improve products."
             } +
             H.p {
                 "The applications provided on the website help solve every-day problems, but are unknown due to their lack of advertising funds or lack of proven traction. Still, the new Facebook and Google are assuredly lurking somewhere within the pages of Let Me Beta."
             } +
             H.p {
-                "The idea for “Let Me Beta” was born from online discussions and debates. Both <a href='http://twitter.com/kishorelive'>Kishore</a> and <a href='http://twitter.com/#'>Mansal</a> are avid Hacker News members and have contributed to the startup community there. The “Show HN” posts usually provide readers with valuable tools and services that resident Hacker News members created for fun. Unfortunately, most are buried in the sea of daily threads and the ones that do survive are not given the proper attention they deserve."
+                "The idea for Let Me Beta was born from online discussions and debates. Both <a href='http://twitter.com/kishorelive'>Kishore</a> and <a href='http://twitter.com/#'>Mansal</a> are avid Hacker News members and have contributed to the startup community there. The Show HN posts usually provide readers with valuable tools and services that resident Hacker News members created for fun. Unfortunately, most are buried in the sea of daily threads and the ones that do survive are not given the proper attention they deserve."
             }
         }
     }
