@@ -6,15 +6,20 @@ body {
     background: #333;
 }
 
-@font-face {
-    font-family: "Lobster";
-    src: url("Lobster.otf");
-}
-
-
 a {
     text-decoration:none;
     color:#666;
+}
+
+p {
+    margin: 0 0 15px 0;
+    font-size: 13px;
+    line-height: 1.4em;
+}
+
+p a {
+    color: #006699;
+    border-bottom: 1px dotted;
 }
 
 h2 {
@@ -42,14 +47,20 @@ header h1 {
     font-size:1.3em;
     font-weight:bold;
     color:#333;
-    margin: 0 20px 0 0;
+    margin: 10px 20px 10px 0;
+    background-image: url(../images/letmebeta.png);    
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 163px; height: 27px;    
 }
 
 header h1 a {
-    color:#990000;
-    font-family: Lobster;
+    color:#990000;    
     font-size: 36px;
     text-transform: lowercase;
+    display: inline-block;
+    text-indent: -9999px;
+    width: 153px; height: 27px;
 }
 
 header h1 small {
@@ -64,6 +75,10 @@ header h1 small {
 
 #content h2 {
     color: #006699;
+}
+
+#main {
+    width: 600px;
 }
 
 footer {
@@ -104,7 +119,7 @@ nav a {
     margin-left: 20px;
 }
 
-body.top a.top, body.latest a.latest, body.submit a.submit, body.replies a.replies, body.login a.login {
+body.top a.top, body.latest a.latest, body.submit a.submit, body.replies a.replies, body.login a.login, body.about a.about {
     font-weight: bold;
     color: #006699;
 }

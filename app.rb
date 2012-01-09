@@ -100,6 +100,31 @@ get '/rss' do
     }
 end
 
+get '/about' do
+    H.set_title "About | #{SiteName}"
+    news,numitems = get_top_news
+    H.page("about") {
+        H.div(:id=>"main") {
+            H.h2 {"About"} +         
+            H.p {
+                "Let Me Beta is a launch platform community for early-stage startups. 
+                We foster discussions about the latest web and mobile based technologies for a mutually beneficial experience: 
+                people who love technology can learn about the latest and greatest applications, while startups can gain traction, 
+                generate feedback, and start a dialogue within the community."
+            } +        
+            H.p {
+                "Startups can find any number of launch platforms that include link-sharing or other forms of advertising. Unfortunately, most internet users are not interested in the latest web and mobile technology and even fewer are willing to offer feedback, criticism, or assistance in making web and mobile applications better. The “Let Me Beta” community is filled with startup founders who understand the difficulty in launching a new web or mobile application, enjoy using the latest technologies, and find pleasure providing feedback to improve products."
+            } +
+            H.p {
+                "The applications provided on the website help solve every-day problems, but are unknown due to their lack of advertising funds or lack of proven traction. Still, the new Facebook and Google are assuredly lurking somewhere within the pages of Let Me Beta."
+            } +
+            H.p {
+                "The idea for “Let Me Beta” was born from online discussions and debates. Both <a href='http://twitter.com/kishorelive'>Kishore</a> and <a href='http://twitter.com/#'>Mansal</a> are avid Hacker News members and have contributed to the startup community there. The “Show HN” posts usually provide readers with valuable tools and services that resident Hacker News members created for fun. Unfortunately, most are buried in the sea of daily threads and the ones that do survive are not given the proper attention they deserve."
+            }
+        }
+    }
+end
+
 get '/latest' do
     redirect '/latest/0'
 end
@@ -813,7 +838,8 @@ end
 def application_header
     navitems = [    ["top","/"],
                     ["latest","/latest/0"],
-                    ["submit","/submit"]]
+                    ["submit","/submit"],
+                    ["about", "/about"]]
     navbar = H.nav {
         navitems.map{|ni|
             H.a(:href=>ni[1], :class=>ni[0]) {H.entities ni[0]}
@@ -834,7 +860,7 @@ def application_header
     }
     H.header {
         H.h1 {
-            H.a(:href => "/") {H.entities SiteName}
+            H.a(:href => "/", :title => "Let Me Beta | Home") {H.entities SiteName}
         }+navbar+" "+rnavbar
     }
 end

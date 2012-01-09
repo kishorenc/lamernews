@@ -130,7 +130,7 @@ class HTMLGen
                 self.meta(:content => :nofollow, :name => :robots)+
                 self.link(:href => "/css/style.css?v=8", :rel => "stylesheet",
                           :type => "text/css")+
-                self.link(:href => "/images/favicon.png", :rel => "shortcut icon")+
+                self.link(:href => "/images/favicon.ico", :rel => "shortcut icon")+
                 self.script(:src =>
                     "/js/jquery-1.6.4.min.js"){}+
                 self.script(:src => "/js/app.js?v=8"){}
