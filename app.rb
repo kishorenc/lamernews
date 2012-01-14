@@ -93,7 +93,7 @@ get '/rss' do
                 "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
             } + " " +
             H.description {
-                "Description pending"
+                "Show and tell platform for early-stage projects"
             } + " " +
             news_list_to_rss(news)
         }
