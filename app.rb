@@ -107,25 +107,25 @@ get '/about' do
         H.div(:id=>"main") {
             H.h2 {"About"} +         
             H.p {
-                "Let Me Beta is a launch platform community for early-stage project and startups. 
+                "Let Me Beta is a launch platform community for early-stage projects and startups. 
                 We hope this place to be a backyard for people who love technology to discover new projects, 
                 while startups or hackers who are publishing their side projects can get feedback and start a 
                 dialogue within the community."
             } +
             H.p {
-                "The applications on Let Me Beta help solve every-day problems, but are unknown due to their lack of 
+                "The projects on Let Me Beta help solve every-day problems, but are unknown due to their lack of 
                 advertising funds or traction. Startups can find any number of launch platforms that include link-sharing 
-                or other forms of advertising. Unfortunately, there are not too many forums for people to offer feedback, 
-                constructive criticism, or assistance in making new web and mobile applications better. 
+                or other forms of advertising. However, there are not too many forums for people to offer feedback, 
+                constructive criticism, or assistance in helping founders make their fledging web and mobile applications better. 
                 The Let Me Beta community is filled with startup founders who understand the difficulty in launching a new web or 
-                mobile application, enjoy dabbling with new things and find pleasure in providing feedback."
+                mobile application and find pleasure in providing feedback."
             } +
             H.p {
                 "The idea for Let Me Beta was born from online discussions and debates. 
                 Both <a href='http://twitter.com/kishorelive'>Kishore</a> and <a href='http://twitter.com/YogaMReddy'>Mansal</a> 
                 are avid Hacker News members and have contributed to the startup community there. 
-                The Show HN posts usually provide readers with valuable tools and services that resident Hacker News members 
-                created for fun. Unfortunately, most are buried in the sea of daily threads and the ones that do survive are not 
+                The Show HN posts usually provide readers with valuable tools and services that Hacker News members 
+                have created for fun. Unfortunately, most are buried in the sea of daily threads and the ones that do survive are not 
                 given the proper attention they deserve."
             }
         }
