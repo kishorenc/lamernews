@@ -292,7 +292,7 @@ get "/news/:news_id" do
     }
     user = get_user_by_id(news["user_id"]) || DeletedUser
     # top_comment = H.topcomment {comment_to_html(c,user)}
-    top_comment = H.div(:id => "post_body"){ c["body"] }
+    top_comment = H.div(:id => "post_body"){ c["body"].gsub(/\n/, '<br />') }
 
     H.set_title "#{H.entities news["title"]} - #{SiteName}"
     H.page {
